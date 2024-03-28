@@ -1,0 +1,149 @@
+#order-history {
+    background-color: transparent;
+    top: 0;
+    height: 90%;
+    width: 70%;
+    margin: auto;
+    position: absolute;
+    overflow: hidden;
+    padding: 20px;
+}
+
+
+@media screen and (max-width: 740px) {
+    #login, #signup{
+        width: 90%;
+    }
+    .datasignup label{
+        display: none;
+    }
+    .mess_signup{
+        left: 10%;
+    }
+    .datasignup input{
+        height: 40px;
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 10px;
+    }
+    .datalogin input{
+        height: 40px;
+    }
+    .showpass{
+        width: 25%;
+    }
+    #btnlogin, #btnsignup{
+        width: 90%;
+    }
+    .body_signup #hideIcon, .body_signup #showIcon{
+        left: 30%;
+    }
+    .bodylogin #hideIcon, .bodylogin #showIcon{
+        right: 85px;
+        top: 10px;
+    }
+    
+    .account-box{
+        width: 100%;
+    }
+
+    #order-history td{
+        font-size: 10px;
+    }
+}
+@media screen and (max-width: 1024px){
+    .title-container h1{
+        text-align: center;
+        font-size: 20px;
+    }
+    
+    .detail{
+        height: 80%;
+        width: 80%;
+        overflow: auto;
+    }
+
+    .detail::-webkit-scrollbar {
+        display: none;
+      }
+
+    
+    .img-container{
+        place-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-top: 0px;
+    }
+
+    .detail-container{
+        flex-direction: column;
+    }
+
+    .detail-content{
+        place-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+        
+    }
+    
+    .div_type{
+        font-size: 25px;
+        margin-left: 10px;
+    }
+
+    .box-ctl{
+        place-content: center;
+        z-index: 10;
+        position: fixed;
+        background-color: var(--lighter-gray);
+        width: 78.6%;
+        border-bottom-right-radius: 20px ;
+        border-bottom-left-radius: 20px ;
+        bottom: 10%;
+        
+    }
+
+    .div_cart{
+        font-size: 4vw;
+    }
+
+    .div_buy{
+        font-size: 4vw;
+    }
+
+    .lb-quantity{
+        width: 25%;
+        margin-left: 10px;
+    }
+
+    .lb-describe{
+        margin-left: 10px;
+    }
+
+    .div_describe{
+        height: 200px;
+        
+    }
+
+    .close_detail{
+        position: fixed;
+        top: 10%;
+        right: 10%;
+    }
+
+    .div_price{
+        margin-left: 10px;
+    }
+
+    #list-size{
+        margin-left: 10px;
+    }
+
+    #table-size{
+        margin-left: 10px;
+    }
+
+    #detailDesc{
+        margin-left: 10px;
+    }
+}

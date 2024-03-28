@@ -2,20 +2,6 @@
 function createProduct() {
     if (localStorage.getItem('products') == null) {
         let products = [
-        {
-                id: 0,
-                status: 0, 
-                title: '',
-                img: '',
-                imghv: '',
-                category: '',
-                sizeS: '',
-                sizeM: '',
-                sizeL: '',
-                sizeXL: '',
-                price: '',
-                desc: ''
-        },
             {
             id: 1,
             status: 1, 
@@ -1020,22 +1006,24 @@ function createOrder() {
     if (!orders) {
         orders = [];
         orders.push(
-        {
-            id: 'MĐ1',
-            khachhang: 'ngkhngan@gmail.com',
-            hinhthucgiao: 'Giao hàng hàng Nhanh',
-            ghichu: "Giao hàng nhanh",
-            tennguoinhan: 'Ngân',
-            sdtnhan: '0986409233',
-            diachinhan: '86 P. Nguyễn Văn Tuyết, Trung Liệt, Đống Đa, Hà Nội ',
-            thoigiandat: "11/9/2023",
-            tongtien:1898000,
-            trangthai: 0
-        },
-        {
+            {
+                id: 'MĐ3',
+                khachhang: 'hoanglinhdan@gmail.com',
+                hinhthucgiao: 'Giao hàng tiết kiệm',
+                priceShip:20000,
+                ghichu: "",
+                tennguoinhan: 'Linh Đan',
+                sdtnhan: '0934835328',
+                diachinhan: '119 Trần Phú, Hải Châu 1, Hải Châu, Đà Nẵng',
+                thoigiandat: "11/14/2023",
+                tongtien: 1640000,
+                trangthai: 0
+            },
+            {
             id: 'MĐ2',
             khachhang: 'ngmkhoi@gmail.com',
             hinhthucgiao: 'Giao hàng tiết kiệm',
+            priceShip:20000,
             ghichu: "Đóng gói cẩn thận",
             tennguoinhan: 'Khôi',
             sdtnhan: '0934583532',
@@ -1043,19 +1031,21 @@ function createOrder() {
             thoigiandat: "11/12/2023",
             tongtien:250000,
             trangthai: 0
-        },
-        {
-            id: 'MĐ3',
-            khachhang: 'hoanglinhdan@gmail.com',
-            hinhthucgiao: 'Giao hàng tiết kiệm',
-            ghichu: "",
-            tennguoinhan: 'Linh Đan',
-            sdtnhan: '0934835328',
-            diachinhan: '119 Trần Phú, Hải Châu 1, Hải Châu, Đà Nẵng',
-            thoigiandat: "11/14/2023",
-            tongtien: 1640000,
+           },    
+          {
+            id: 'MĐ1',
+            khachhang: 'ngkhngan@gmail.com',
+            hinhthucgiao: 'Giao hàng hàng Nhanh',
+            priceShip:20000,
+            ghichu: "Giao hàng nhanh",
+            tennguoinhan: 'Ngân',
+            sdtnhan: '0986409233',
+            diachinhan: '86 P. Nguyễn Văn Tuyết, Trung Liệt, Đống Đa, Hà Nội ',
+            thoigiandat: "11/9/2023",
+            tongtien:1898000,
             trangthai: 1
         }
+
         )
         localStorage.setItem('order', JSON.stringify(orders));
     }

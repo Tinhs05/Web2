@@ -2,7 +2,7 @@ function checkLogin() {
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if(currentUser == null || currentUser.userType == 0) {
         document.querySelector("body").innerHTML = `<div class="access-denied-section">
-            <img class="access-denied-img" src="./assets/cảnh báo 1.jpg" alt="">
+            <img class="access-denied-img" src="./assets/cảnh báo.jpg" alt="">
         </div>`
         alert("Bạn không phải admin!!!")
     } else {
@@ -91,10 +91,15 @@ function getMoney() {
 
 // Doi sang dinh dang tien VND
 function vnd(price) {
-    if(price != null)
+    if(checkPriceReal(price) == true)
        return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     return "";
 }
+function checkPriceReal(price){
+    if(price != null && price != "0" && price != 0 && price != "")
+        return true;
+    return false;
+  }
 // Phân trang 
 let perPage = 10;
 let currentPage = 1;
@@ -205,10 +210,10 @@ function showProductArr(arr) {
 
 
 
-let minPriceTemp = 0;
+let minPriceTemp = 100000;
 let maxPriceTemp = 1000000;
 function sliderPrice() {
-    var minPrice = 0;
+    var minPrice = 100000;
     var maxPrice = 1000000;
     
     $("#max-price").val(vnd(maxPrice));
@@ -217,7 +222,7 @@ function sliderPrice() {
     
     $("#price-range").slider({
       range: true,
-      min: 0,
+      min: 100000,
       max: 1000000,
       values: [minPrice, maxPrice],
       slide: function(event, ui) {
@@ -244,7 +249,7 @@ function showProduct() {
     } else if(selectOp == "Đã xóa") {
         result = products.filter((item) => item.status == 0);
     } else if(selectOp == "Sale"){
-        result = products.filter((item) => item.newprice != '');
+        result = products.filter((item) => checkPriceReal(item.newprice) == 'true');
     }else{
         result = products.filter((item) => item.category == selectOp);
     }
@@ -269,7 +274,7 @@ function cancelSearchProduct() {
     let products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")).filter(item => item.status == 1) : [];
     document.getElementById('the-loai').value = "Tất cả";
     document.getElementById('form-search-product').value = "";
-    minPriceTemp = 0;
+    minPriceTemp = 100000;
     maxPriceTemp = 1000000;
     sliderPrice();
 
@@ -290,6 +295,15 @@ function createId(arr) {
 }
 
 ///Lọc sản phẩm theo tiền
+function getPriceNow(id){
+    let product = JSON.parse(localStorage.getItem('products'));
+    let tempProduct = product.find((item) => item.id == id)
+     if(checkPriceReal(tempProduct.newprice) == true){
+         return tempProduct.newprice;
+     }else{
+         return tempProduct.price;
+     }  
+}
 
 function filterProductPrice(){
     let selectOp = document.getElementById('the-loai').value;
@@ -301,7 +315,7 @@ function filterProductPrice(){
     } else if(selectOp == "Đã xóa") {
         result = products.filter((item) => item.status == 0);
     }else if(selectOp == "Sale"){
-        result = products.filter((item) => item.newprice != "");
+        result = products.filter((item) => checkPriceReal(item.newprice) == true);
     } else {
         result = products.filter((item) => item.category == selectOp);
     }
@@ -309,23 +323,13 @@ function filterProductPrice(){
     result = valeSearchInput == "" ? result : result.filter(item => {
         return item.title.toString().toUpperCase().includes(valeSearchInput.toString().toUpperCase());
     })
-    resultOldPrice = result.filter(item => item.newprice =="");
-    resultOldPrice = resultOldPrice.filter(item => {
-        const itemPrice = parseInt(item.price);
+    result = result.filter(item => {
+        const itemPrice = parseInt(getPriceNow(item.id));
         const minPrice = parseInt(minPriceTemp);
         const maxPrice = parseInt(maxPriceTemp);
         return itemPrice >= minPrice && itemPrice <= maxPrice;
     });
-
-    resultNewPrice = result.filter(item => item.newprice !="");
-    resultNewPrice = resultNewPrice.filter(item => {
-        const itemPrice = parseInt(item.newprice);
-        const minPrice = parseInt(minPriceTemp);
-        const maxPrice = parseInt(maxPriceTemp);
-        return itemPrice >= minPrice && itemPrice <= maxPrice;
-    });
-    result= resultNewPrice.concat(resultOldPrice);
-    result.sort((a, b) => a.id - b.id);
+        result.sort((a, b) => a.id - b.id);
 
 
     displayList(result, perPage, currentPage);
@@ -547,8 +551,8 @@ btnUpdateProductIn.addEventListener("click", (e) => {
     let titleProductCur = document.getElementById("ten-ao").value;
     let priceProductCur = document.getElementById("gia-cu").value;
     let newpriceProductCur = document.getElementById("gia-moi").value;
-    if(newpriceProductCur == ""){
-        outprice[indexCur-1].classList.remove("active");
+    if(checkPriceReal(newpriceProductCur) == false){
+        outprice[indexCur].classList.remove("active");
     }
     let descProductCur = document.getElementById("mo-ta").value;
     let categoryText = document.getElementById("chon-loai-ao").value;
@@ -578,7 +582,9 @@ btnUpdateProductIn.addEventListener("click", (e) => {
         advertise({ title: "Chú ý", message: "Vui lòng nhập đầy đủ thông tin sản phẩm!", type: "warning", duration: 3000, });
     }else if(isNaN(priceProductCur)) {
         advertise({ title: "Chú ý", message: "Giá phải ở dạng số!", type: "warning", duration: 3000, });
-    }else if(isNaN(newpriceProductCur) && newpriceProductCur != "") {
+    }else if(parseInt(priceProductCur)< 100000) {
+        advertise({ title: "Chú ý", message: "Giá tối thiểu là 100000đ!", type: "warning", duration: 3000, });
+    }else if(isNaN(newpriceProductCur)) {
         advertise({ title: "Chú ý", message: "Giá khuyến mãi phải ở dạng số!", type: "warning", duration: 3000, });
     }
     else{
@@ -596,10 +602,10 @@ btnUpdateProductIn.addEventListener("click", (e) => {
                     title: titleProductCur,
                     img: imgProductCur,
                     imghv: imgProductHvrCur,
-                    sizeS: sizeSCur,
-                    sizeM: sizeMCur,
-                    sizeL: sizeLCur,
-                    sizeXL: sizeXLCur,
+                    sizeS: parseInt(sizeSCur),
+                    sizeM: parseInt(sizeMCur),
+                    sizeL: parseInt(sizeLCur),
+                    sizeXL: parseInt(sizeXLCur),
                     category: categoryText,
                     price: parseInt(priceProductCur),
                     newprice: parseInt(newpriceProductCur),
@@ -650,10 +656,10 @@ btnAddProductIn.addEventListener("click", (e) => {
                 category: categoryText,
                 price: price,
                 newprice: newprice,
-                sizeS: szS,
-                sizeM: szM,
-                sizeL: szL,
-                sizeXL: szXL,
+                sizeS: parseInt(szS),
+                sizeM: parseInt(szM),
+                sizeL: parseInt(szL),
+                sizeXL: parseInt(szXL),
                 desc: moTa,
                 status:1
             };
@@ -1137,7 +1143,7 @@ function detailOrder(id) {
                 <img src="${detaiSP.img}" alt="">
                 <div class="order-product-info">
                     <h4>${detaiSP.title}</h4>
-                    <p class="order-product-category">${item.category}</p>
+                    <p class="order-product-category">${detaiSP.category}</p>
                     <p class="order-product-size">Size: ${item.size}<p>
                     <p class="order-product-quantity">SL: ${item.quantity}<p>
                 </div>
@@ -1590,7 +1596,7 @@ function deleteAcount(id) {
     let accounts = JSON.parse(localStorage.getItem('accounts'));
     let index = accounts.findIndex(item => item.id == id);
     if (confirm("Bạn có chắc muốn xóa?")) {
-        accounts[id - 1].status = 0;
+        accounts.splice(index,1);
     }
     localStorage.setItem("accounts", JSON.stringify(accounts));
     showUser();
@@ -1789,7 +1795,7 @@ addAccount.addEventListener("click", (e) => {
             formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu';
              passwordIP.focus();
         } else if (passwordUser.length < 6) {
-            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
+            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 5 kí tự';
             passwordIP.focus();
         }else{
             formMessagePassword.innerHTML = '';

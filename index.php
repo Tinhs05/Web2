@@ -1,53 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./css/font/font-awesome-pro-v6-6.2.0/css/all.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="./css/style.css">
-    <link rel="stylesheet" type="text/css" href="./image">
-
-    <!-- <link rel="stylesheet" href="css/admin.css"> -->
-    <link rel="icon" type="images/x-icon"  href="./icon/icontitle1.png">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <title>HALO STORE</title>
-</head>
 <body >
+    <?php
+        require_once('.\layout\header.php')
+    ?>
     <div class="header" > 
         <div class="headbox" id="headbox">
            <!-- <div><picture></picture></div> -->
            
                 <div class="headleft">
-                     <div><img src="./assets/logoStore.png" id="logo"></div>
+                     <div><a href="/"><img src="./assets/logoStore.png" id="logo"></a></div>
                 </div>
                 <form class="headcenter" class="form-search">
                      <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
-                     <input type="text" id="form-search-product" type="text" class="form-search-input inputsearch" placeholder="TÌm kiếm sản phẩm"  onclick="searchform()">
+                     <input type="text" id="form-search-product" type="text" class="form-search-input inputsearch" placeholder="TÌm kiếm sản phẩm"  oninput="searchform()">
                      <span class="filter-btn"><i class="fa-light fa-filter-list"></i>Lọc</span>
                 </form>
                 <div class="headerright">
-                    <div class="headerright-click ">
-                       <div id="AccountLogin">
-                           <button  id="btnAccount"  onclick="showForm()">Đăng nhập</button>
-                        </div>
-                        <div class="header-middle-right-menu">
-                            <ul class="header-middle-right">
-                             </ul>
-                        </div>
+                    <div class="headerright-click">
+                      <div class="menumore">
+                           <div id="AccountLogin">
+                                <button  id="btnAccount"  onclick="showForm()">Đăng nhập</button>
+                           </div>
+                           <div class="header-middle-right-menu">
+                               <ul class="header-middle-right">
+                                </ul>
+                           </div>
+                       </div>
+                       <div class="headerright-click"><button onclick="openCart()"> <i class="fa-regular fa-cart-shopping"></i></button></div>
                     </div>
-                    <div class="headerright-click"><button onclick="openCart()"> <i class="fa-regular fa-cart-shopping"></i></button></div>
-                </div>
         </div>
         <div class="lowmenu">
-                  <div class=""> <button type="button"><i class="fa-regular fa-house"></i><a href="">Trang chủ</a></button></div>
-                   <div class=""> <button  onclick="showCategory('Áo sơ mi')">Áo sơ mi</button></div>
-                   <div class=""> <button onclick="showCategory('Áo thun')">Áo thun</button></div>
-                   <div class=""> <button onclick="showCategory('Áo Khoác')">Áo Khoác</button></div>
-                   <div class=""> <button onclick="showCategory('Áo Polo')">Áo Polo</button></div>
-                   <div class=""> <button onclick="showCategory('Áo Hoodie')">Áo Hoodie</button></div>
-                   <div class=""> <button onclick="showCategory('Sale')">Sale</button></div>
+                   <div> <button type="button"><i class="fa-regular fa-house"></i><a href="/">Trang chủ</a></button></div>
+                   <div> <button class="list-category">Áo Sơ mi</button></div>
+                   <div> <button class="list-category">Áo Thun</button></div>
+                   <div> <button class="list-category">Áo Khoác</button></div>
+                   <div> <button class="list-category">Áo Polo</button></div>
+                   <div> <button class="list-category">Áo Hoodie</button></div>
+                   <div> <button class="list-category">Sale</button></div>
    
                <!-- </div> -->
         </div>
@@ -55,12 +45,12 @@
             <div class="container">
                 <div class="advanced-search-category">
                     <span>Phân loại </span>
-                    <select name="" id="advanced-search-category-select" onchange="searchProducts()">
+                    <select name="" id="advanced-search-category-select" onchange="Filter('cagetory')">
                         <option>Tất cả</option>
                         <option>Áo Sơ mi</option>
                         <option>Áo Thun</option>
                         <option>Áo Khoác</option>
-                        <option>Áo polo</option>
+                        <option>Áo Polo</option>
                         <option>Áo Hoodie</option>
                         <option>Sale</option>
                     </select>
@@ -71,15 +61,15 @@
                         <input type="text" id="min-price" readonly> - <input type="text" id="max-price" readonly>
                     </div>
                     <div>
-                        <button id="filter-price" onclick="filterProductPrice()"><i class="fa-light fa-filter-circle-dollar"></i></button>
+                        <button id="filter-price" onclick="Filter('price')"><i class="fa-light fa-filter-circle-dollar"></i></button>
                     </div>
                   
                 </div>
 
                 <div class="advanced-search-control">
-                    <button id="sort-ascending" onclick="searchProducts(1)"><i class="fa-regular fa-arrow-up-short-wide"></i></button>
-                    <button id="sort-descending" onclick="searchProducts(2)"><i class="fa-regular fa-arrow-down-wide-short"></i></button>
-                    <button id="reset-search" onclick="searchProducts(0)"><i class="fa-light fa-arrow-rotate-right"></i></button>
+                    <button id="sort-ascending" onclick="Filter('asc')"><i class="fa-regular fa-arrow-up-short-wide"></i></button>
+                    <button id="sort-descending" onclick="Filter('desc')"><i class="fa-regular fa-arrow-down-wide-short"></i></button>
+                    <button id="reset-search" onclick="resetProduct()"><i class="fa-light fa-arrow-rotate-right"></i></button>
                     <button onclick="closeSearchAdvanced()"><i class="fa-light fa-xmark"></i></button>
                 </div>
             </div>
@@ -91,8 +81,8 @@
          <button class="slide-img"><img src="./assets/slide2.webp"  alt=""></button>
      </div>
 
-    <div>
-       <div class="home-title-block" id="home-title">
+    <div class="home-store">
+        <div class="home-title-block" id="home-title">
             <h2 class="home-title">Khám phá sản phẩm của chúng tôi</h2>
         </div>
         <div class="container-products">     
@@ -155,13 +145,13 @@
           </ul>
        </div>
           <div id="table-size"> 
-          <span class="btn-img-size" onclick="showTbSize()">Tham khảo bảng size</span>
+              <span class="btn-img-size" onclick="showTbSize()">Tham khảo bảng size</span>
           </div>
           <div id="div_quantity">
           <span class="lb-quantity">Số lượng:</span>
-            <button class="quantity" id="quantity-down" onclick="handleMinus()">-</button>
-            <input id="amount" class="input-qty" name="amount" type="" value="1">
-            <button class="quantity " id="quantity-up" onclick="handlePlus()">+</button>
+               <button class="quantity" id="quantity-down" onclick="handleMinus()">-</button>
+               <input id="amount" class="input-qty" name="amount" type="" value="1">
+               <button class="quantity " id="quantity-up" onclick="handlePlus()">+</button>
           </div> 
            
           <div class="div_describe"> 
@@ -170,7 +160,7 @@
            </div>
            <div class="box-ctl"> 
                 <button class="div_cart" id="btnAddCart" >THÊM VÀO GIỎ HÀNG</button>
-                <button class="div_buy" >MUA NGAY</button>
+                <button class="div_buy button-dathangngay">MUA NGAY</button>
            </div>
           </div>
       </div>
@@ -180,7 +170,7 @@
         <div class="modal-img">
             <button type="button" id="img-size-close"><i class="fa-regular fa-xmark"></i></button>
             <div id="imgModal">
-               <img src="assets/bảng size.webp" alt="">
+               <img src="assets/bảng size.webp" alt="" class="listTbSize">
             </div>
         </div>
     </div>
@@ -271,25 +261,29 @@
           </ul>
         </div>
         <div class="account-wrapper">
-            <div class="account-content  active " id="account-info">
+            <div class="account-content active" id="account-info">
                 <h3>Thông tin cá nhân</h3>
                 <ul>
                   <li>
                     <label>Họ tên</label>
-                    <input type="text" id="name" />
+                    <input type="text" id="nameif" />
+                    <span class="message messname"></span>
+                    
                   </li>
                   <li>
                     <label>Email</label>
-                    <input type="email" id="email" />
+                    <input type="email" id="emailif" />
+                    <span class="message messemail"></span>
                   </li>
 
                   <li>
                     <label>Số điện thoại</label>
-                    <input type="tel" id="phone" />
+                    <input type="" id="phoneif" />
+                    <span class="message messphone"></span>
                   </li>
                   <li>
                     <label>Địa chỉ</label>
-                    <input type="text" id="address" />
+                    <input type="text" id="addressif" />
                   </li>
                   <li>
                     <button onclick="updateAccountInfo()">Cập nhật thông tin tài khoản</button>
@@ -319,27 +313,27 @@
           
             <div class="account-content" id="change-password">
               <h3>Đổi mật khẩu</h3>
-              <form action="/account/change-password" method="post" id="changePass-form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <form  id="changePass-form">
+                <input type="hidden" >
                     <div class="form-group">
                     <label for="old_password">Mật khẩu hiện tại</label>   
-                    <input type="password" name="old_password" id="old_password" class="form-control" required />
-                    <span class="message"></span>
+                    <input type="password" name="old_password" id="old_password" class="form-control"/>
+                    <span class="message messoldpass"></span>
                     </div>  
                     <div
                     class="form-group">  
                     <label
                     for="new_password">Mật khẩu mới</label>
-                    <input type="password" name="new_password" id="new_password" class="form-control" required/>
-                    <span class="message"></span>
+                    <input type="password" name="new_password" id="new_password" class="form-control"/>
+                    <span class="message messnewpass"></span>
                     </div>     
                     <div
                     class="form-group">
                     <label for="confirm_password">Xác nhận mật khẩu mới</label>     
-                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" required/>
-                    <span class="message"></span>      
+                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" />
+                    <span class="message messpassconf"></span>      
                     </div>      
-                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                <button type="button" class="btn btn-primary" onclick="changePassword()">Xác nhận</button>
               </form>
             </div>
         </div>
@@ -349,7 +343,7 @@
     <div class="detail-order">
         <div class="modal-container">
             <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
-            <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
+            <button class="modal-close" onclick="closeOrderDetail()"><i class="fa-regular fa-xmark"></i></button>
             <div class="modal-detail-order">
             </div>
             </form>
@@ -361,7 +355,7 @@
                 <h3 class="cart-header-title"><i class="fa-regular fa-basket-shopping-simple"></i> Giỏ hàng</h3>
                 <button class="cart-close" onclick="closeCart()"><i class="fa-sharp fa-solid fa-xmark"></i></button>
             </div>
-            <div class="cart-body">
+            <div class="cart-body" id="cart-body">
                 <div class="gio-hang-trong">
                     <i class="fa-thin fa-cart-xmark"></i>
                     <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
@@ -502,11 +496,11 @@
                         <div class="priceFlx chk-ship">
                         <form class="list-ship" id="radioFormShip">
                            <div>
-                              <input type="radio" name="shippingOps" class="shippingOps" value="20000" >
+                              <input type="radio" name="shippingOps" id="ghtk" class="shippingOps" value="20000" >
                               <label for="" id="transport-fee-bill"></label>
                           </div>
                           <div>
-                              <input type="radio" name="shippingOps" class="shippingOps" value="30000" checked>
+                              <input type="radio" name="shippingOps" id="ghht" class="shippingOps" value="30000" checked>
                               <label for="" id="speed-ship-bill"></label>
                           </div>
                         </form>
@@ -528,16 +522,13 @@
             </div>
         </main>
     </div>      
-           
-       
-    <div class="footer">
-           <div class="footleft">Thông tin shop</div>
-    </div>
        <div id="advertise"></div>
        <script src="./js/main.js"></script>
        <script src="./js/dataprod.js"></script>
        <script src="./js/admin.js"></script>
-
+    <?php
+        require_once('.\layout\footer.php')
+    ?>
 
 </body>
 </html>

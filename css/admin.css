@@ -2008,14 +2008,19 @@ label a {
 
 .access-denied-section{
     position: absolute;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top:0;
+    left: 25%;
+    right: 25%;
+    bottom: 0;
     text-align: center;
+    overflow: hidden;
+
 }
 
 .access-denied-img{
     width: 100%;
+    height: 100%;
+
 }
 
 .no-result{
